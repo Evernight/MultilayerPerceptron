@@ -80,7 +80,6 @@ class MultilayerNetwork:
         samples, values = np.hsplit(test_set, (-m,))
         for sample, value in zip(samples, values):
             res = self.process(sample)
-            print res, value
             E += np.square(res - value).sum()
 
         return E/2
@@ -99,7 +98,7 @@ class MultilayerNetwork:
                 1,
                 logistic_function(self.weights[l].dot(cur))
             ))
-        return np.vsplit(cur, ())
+        return np.vsplit(cur, (1,))[1]
 
 def load_samples(fname):
     with open(fname, 'r') as f:
@@ -112,13 +111,27 @@ def load_samples(fname):
 
 if __name__ == '__main__':
     n, m, data = load_samples('../data/circles.tsv')
-    net = MultilayerNetwork((2, 10, 1))
+    training_set, test_set = np.vsplit(data, (150, ))
 
-    print net.error_at_set(data)
-    for i in xrange(10):
-        net.train_at_set(data)
-        print net.error_at_set(data)
+    net = MultilayerNetwork((2, 30, 1))
 
+    def calc_accuarcy():
+        correct = 0
+        samples, values = np.hsplit(test_set, (-m,))
+        for sample, value in zip(samples, values):
+            res = net.process(sample)
+            if np.abs(res - value) < 0.5:
+                correct += 1
+        return correct * 1./ samples.shape[0]
+
+    print calc_accuarcy()
+
+    print net.error_at_set(training_set), net.error_at_set(test_set)
+    for i in xrange(100):
+        net.train_at_set(training_set)
+        print net.error_at_set(training_set), net.error_at_set(test_set)
+
+    print calc_accuarcy()
 #    samples, values = np.hsplit(data, (-m,))
 #    for sample, value in zip(samples, values):
 #        print net.process(sample), value

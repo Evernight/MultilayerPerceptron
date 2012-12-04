@@ -20,4 +20,4 @@ class InsideCircleDataGenerator:
 
 
 if __name__ == '__main__':
-    InsideCircleDataGenerator().gen_file("../data/circles.tsv", 100, 2, 10, 6)
+    InsideCircleDataGenerator().gen_file("../data/circles.tsv", 1000, 2, 10, 6)
