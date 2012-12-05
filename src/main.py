@@ -31,7 +31,7 @@ class MultilayerNetwork:
         Back-propagation algorithm
         """
         W = self.weights
-        learning_rate = 0.1
+        learning_rate = 0.5
 
         # forward pass
         input = np.vstack((
@@ -126,11 +126,13 @@ if __name__ == '__main__':
 
     print calc_accuarcy()
 
+    print net.weights
     print net.error_at_set(training_set), net.error_at_set(test_set)
-    for i in xrange(100):
+    for i in xrange(50):
         net.train_at_set(training_set)
         print net.error_at_set(training_set), net.error_at_set(test_set)
 
+    print net.weights
     print calc_accuarcy()
 #    samples, values = np.hsplit(data, (-m,))
 #    for sample, value in zip(samples, values):
