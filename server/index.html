@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multilayer Perceptron</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+            <h2>Network</h2>
+            <div class="control-group">
+                <label class="control-label" for="networksList">Select network</label>
+                <div class="controls">
+                    <select id="networksList" onchange="loadNetwork();">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="span9">
+            <h2>Graphs</h2>
+            <p id="networkData">
+            </p>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/index.js"></script>
+
+</body>
+</html>

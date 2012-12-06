@@ -1,0 +1,8 @@
+{
+    "name": "Circles 01",
+    "description": "wow",
+    "data_file": "../../data/circles.tsv",
+    "layers": [2, 30, 1],
+    "training_set_size": 700,
+    "test_set_size" : 300
+}
