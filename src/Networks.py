@@ -81,7 +81,7 @@ class MultilayerNetwork:
             res = self.process(sample)
             E += np.square(res - value).sum()
 
-        return E/2
+        return E/(2 * test_set.shape[0])
 
     def process(self, sample):
         """

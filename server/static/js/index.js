@@ -18,7 +18,8 @@ function loadNetwork() {
         url: "/load_network?id=" + id,
         dataType : "json",
         success: function(data, textStatus) {
-            $("#networkData").text(data);
+            //$("#networkData").text(data);
+            drawChart(data);
         }
     });
 }

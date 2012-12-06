@@ -40,12 +40,13 @@ def process_data_set(net_name):
     epoch = 0
     while True:
         epoch += 1
-        print "Epoch %d" % epoch
         net.train_at_set(training_set, m)
+        tr_se, te_se = net.error_at_set(training_set, m), net.error_at_set(test_set, m)
+        print "Epoch %d, training=%8.2f, test=%8.2f" % (epoch, tr_se, te_se)
         log.append({
             "t" : epoch,
-            "train_E" : net.error_at_set(training_set, m),
-            "test_E" : net.error_at_set(test_set, m)
+            "train_E" : tr_se,
+            "test_E" : te_se
         })
         if epoch > 200:
             break
