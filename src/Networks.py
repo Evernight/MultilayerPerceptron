@@ -9,9 +9,10 @@ def logistic_function_derivative(x):
     return t/(1 + t*t)
 
 class MultilayerNetwork:
+    MAX_INITIAL_WEIGHT = 0.2
 
     def _init_weights(self, n, m):
-        return npr.rand(n, m).transpose() * 0.4
+        return npr.rand(n, m).transpose() * 2 * self.MAX_INITIAL_WEIGHT  - self.MAX_INITIAL_WEIGHT
 
     def __init__(self, network_size):
         """
@@ -25,12 +26,14 @@ class MultilayerNetwork:
 
         self.network_size = network_size
 
+        self.learning_rate = 0.1
+
     def process_learning(self, sample, result):
         """
         Back-propagation algorithm
         """
         W = self.weights
-        learning_rate = 0.5
+
 
         # forward pass
         input = np.vstack((
@@ -66,9 +69,10 @@ class MultilayerNetwork:
         # modify weights
         for l in reversed(xrange(1, len(self.network_size))):
             deltas_except_bias = np.vsplit(delta[l], (1,))[1]
-            W[l - 1] += learning_rate * deltas_except_bias.dot(y[l - 1].transpose())
+            W[l - 1] += self.learning_rate * deltas_except_bias.dot(y[l - 1].transpose())
 
     def train_at_set(self, training_set, m):
+        npr.shuffle(training_set)
         samples, values = np.hsplit(training_set, (-m,))
         for sample, value in zip(samples, values):
             self.process_learning(sample, value)

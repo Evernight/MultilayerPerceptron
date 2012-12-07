@@ -18,6 +18,5 @@ class InsideCircleDataGenerator:
                 f.write('\t'.join(sample.flat) + '\n')
 
 
-
 if __name__ == '__main__':
     InsideCircleDataGenerator().gen_file("../data/circles.tsv", 1000, 2, 10, 6)

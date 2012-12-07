@@ -15,11 +15,23 @@ $(document).ready(function() {
 function loadNetwork() {
     var id = $("#networksList").val();
     $.ajax({
-        url: "/load_network?id=" + id,
+        url: "/load_network_log?id=" + id,
         dataType : "json",
         success: function(data, textStatus) {
-            //$("#networkData").text(data);
-            drawChart(data);
+            drawChart(data.log);
+            var resultsDesc =
+                "Training set accuarcy: " + (100 * data.training_set_acc).toFixed(2) + "%<br/>" +
+                "Test set accuarcy: " + (100 * data.test_set_acc).toFixed(2) + "%\n";
+            $("#networkResults").html(resultsDesc);
+        }
+    });
+
+    $.ajax({
+        url: "/load_network_desc?id=" + id,
+        dataType : "json",
+        success: function(data, textStatus) {
+            $("#networkDescription").text(data.description);
+            $("#networkName").text(data.name);
         }
     });
 }

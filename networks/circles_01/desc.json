@@ -1,6 +1,6 @@
 {
     "name": "Circles 01",
-    "description": "wow",
+    "description": "Network with one hidden layer of 30 neurons and fixed learning rate of 0.1",
     "data_file": "../../data/circles.tsv",
     "layers": [2, 30, 1],
     "training_set_size": 700,

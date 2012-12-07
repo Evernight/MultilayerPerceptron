@@ -5,12 +5,31 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/chart.css" rel="stylesheet" media="screen">
+    <style>
+        body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+    </style>
 </head>
 <body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <ul class="nav">
+                <li>
+                    <a class="brand" href="#">Multilayer Perceptron</a>
+                </li>
+                <li class="active"><a href="#">Learning curves</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="span3">
-            <h2>Network</h2>
+            <!--<h2>Network</h2>-->
             <div class="control-group">
                 <label class="control-label" for="networksList">Select network</label>
                 <div class="controls">
@@ -18,9 +37,24 @@
                     </select>
                 </div>
             </div>
+            <div>
+                <h4>Network name</h4>
+                <p id="networkName">
+
+                </p>
+                <label for="networkDescription"><h4>Description</h4></label>
+                <p id="networkDescription">
+
+                </p>
+                <h4>Results</h4>
+                <p id="networkResults">
+
+                </p>
+            </div>
+
         </div>
         <div class="span9">
-            <h2>Graphs</h2>
+            <!--<h2>Graphs</h2>-->
             <div id="chartContainer">
             </div>
         </div>

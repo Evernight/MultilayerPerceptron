@@ -12,11 +12,16 @@ class WebServer:
 
     @cherrypy.expose
     def networks_list(self):
-        return json.dumps(os.listdir(networks_dir))
+        return json.dumps(sorted(os.listdir(networks_dir)))
 
     @cherrypy.expose
-    def load_network(self, id):
+    def load_network_log(self, id):
         path = os.path.join(networks_dir, id, 'learn_log.json')
+        return open(path, 'r')
+
+    @cherrypy.expose
+    def load_network_desc(self, id):
+        path = os.path.join(networks_dir, id, 'desc.json')
         return open(path, 'r')
 
 
