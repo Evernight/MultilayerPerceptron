@@ -26,12 +26,36 @@ function loadNetwork() {
         }
     });
 
+    var loadVisualizer = function() {
+        $.ajax({
+            url: "/load_data_visualizer?id=" + id,
+            dataType : "text",
+            success: function(data, textStatus) {
+                eval(data);
+                $.ajax({
+                    url: "/load_data_file?id=" + id,
+                    dataType : "text",
+                    success: function(data, textStatus) {
+                        drawData(data);
+                    }
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(textStatus + ' ' + errorThrown);
+            }
+        });
+    };
+
     $.ajax({
         url: "/load_network_desc?id=" + id,
         dataType : "json",
         success: function(data, textStatus) {
             $("#networkDescription").text(data.description);
             $("#networkName").text(data.name);
+
+            if (data.data_visualizer) {
+                loadVisualizer();
+            }
         }
     });
 }
