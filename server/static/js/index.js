@@ -1,3 +1,20 @@
+function makeTabs() {
+    var tabContainers = $('div.tabsContainer > div');
+    tabContainers.hide().filter(':first').show();
+    $('ul.tabNavigation li.tabSelector a').click(function () {
+        tabContainers.hide();
+        tabContainers.filter(this.hash).show();
+
+        $('ul.tabNavigation li.tabSelector a').removeClass('selected');
+        $(this).addClass('selected');
+
+        $('ul.tabNavigation li.tabSelector').removeClass('active');
+        $(this).parent().addClass('active');
+
+        return false;
+    }).filter(':first').click();
+}
+
 $(document).ready(function() {
     $.ajax({
         url: "/networks_list",
@@ -10,6 +27,8 @@ $(document).ready(function() {
             loadNetwork();
         }
     });
+
+    makeTabs()
 });
 
 function loadNetwork() {
@@ -37,6 +56,9 @@ function loadNetwork() {
                     dataType : "text",
                     success: function(data, textStatus) {
                         drawData(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert(textStatus + ' ' + errorThrown);
                     }
                 });
             },
@@ -55,6 +77,10 @@ function loadNetwork() {
 
             if (data.data_visualizer) {
                 loadVisualizer();
+                //$('ul.tabNavigation li.tabSelector').addClass('hidden');
+            }
+            else {
+                //$('ul.tabNavigation li.tabSelector').addClass('hidden');
             }
         }
     });

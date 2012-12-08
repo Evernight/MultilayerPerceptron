@@ -1,0 +1,13 @@
+{
+    "name": "Circles 03",
+    "description":  "Network with one hidden layer of 30 neurons and adaptive learning rate",
+    "data_file": "../../data/circles.tsv",
+    "layers": [2, 30, 1],
+    "training_set_size": 700,
+    "test_set_size" : 300,
+
+    "data_visualizer" : {
+        "js_file" : "../../data/visualizer/2d_points.js",
+        "processed_data_file" : "results.tsv"
+    }
+}

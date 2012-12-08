@@ -35,7 +35,7 @@ class WebServer:
     def load_data_file(self, id):
         path = os.path.join(networks_dir, id, 'desc.json')
         info = json.load(open(path, 'r'))
-        vis_path = os.path.join(networks_dir, id, info["data_file"])
+        vis_path = os.path.join(networks_dir, id, info["data_visualizer"]["processed_data_file"])
         return open(vis_path, 'r').read()
 
 if __name__ == '__main__':

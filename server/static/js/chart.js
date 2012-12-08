@@ -3,7 +3,7 @@ function drawChart(data) {
 
     var margin = {top: 20, right: 20, bottom: 30, left: 50},
         width = 700 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        height = 600 - margin.top - margin.bottom;
 
     var color = d3.scale.category10();
 

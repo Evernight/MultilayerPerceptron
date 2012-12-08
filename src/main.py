@@ -9,6 +9,9 @@ from Networks import MultilayerNetwork
 # * what about alpha in weights mod?
 # * move training process inside network
 #
+# * push network name in url
+# * interface fix
+#
 # OPTIONAL:
 # * check gradient
 # * regularization
@@ -107,4 +110,4 @@ def tmp_just_get_pdf(net_name):
 
 if __name__ == '__main__':
     #process_data_set("circles_03")
-    tmp_just_get_pdf("circles_01")
+    tmp_just_get_pdf("circles_03")
