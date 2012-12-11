@@ -1,4 +1,5 @@
 import json
+from math import fabs
 import numpy as np
 import os
 import pickle
@@ -64,25 +65,55 @@ def process_data_set(net_name):
     log = []
     epoch = 0
     E_history = []
+    best_E =  net.error_at_set(training_set, m)
     while True:
         epoch += 1
         net.train_at_set(training_set, m)
         tr_se, te_se = net.error_at_set(training_set, m), net.error_at_set(test_set, m)
+        if tr_se < best_E:
+            best_E = tr_se
+            pickle.dump(net, open(os.path.join(path, "net.pickled"), 'w'))
         print "Epoch %d, training=%8.5f, test=%8.5f (LR=%8.5f)" % (epoch, tr_se, te_se, net.learning_rate)
         log.append({
             "t" : epoch,
             "train_E" : tr_se,
             "test_E" : te_se
         })
-        E_history.append(tr_se)
-        if len(E_history) >= 4:
-            e1, e2, e3, e4 = E_history[-4:]
-            if np.sign(e2 - e1) == np.sign(e3 - e2) == np.sign(e4 - e3):
-                net.learning_rate *= 1.5
-            if np.sign(e2 - e1) != np.sign(e3 - e2) and np.sign(e3 - e2) != np.sign(e4 - e3):
-                net.learning_rate /= 1.5
 
-        if epoch >= 150:
+        E_history.append(tr_se)
+
+        INC_HISTORY_SIZE = 6
+        DEC_HISTORY_SIZE = 4
+        SHAKE_HISTORY_SIZE = 4
+        SHAKE_EPS = 1e-5
+
+        if len(E_history) >= INC_HISTORY_SIZE:
+            differences = []
+            for i in xrange(len(E_history) - INC_HISTORY_SIZE, len(E_history)):
+                differences.append(E_history[i] - E_history[i - 1])
+            if all([e < 0 for e in differences]):
+                print 'Increasing LR'
+                net.learning_rate *= 1.25
+
+        if len(E_history) >= DEC_HISTORY_SIZE:
+            differences = []
+            for i in xrange(len(E_history) - DEC_HISTORY_SIZE, len(E_history)):
+                differences.append(E_history[i] - E_history[i - 1])
+            if len(filter(lambda x: x > 0, differences)) >= 2:
+                print 'Decreasing LR'
+                net.learning_rate /= 1.25
+
+        if len(E_history) >= SHAKE_HISTORY_SIZE:
+            differences = []
+            for i in xrange(len(E_history) - DEC_HISTORY_SIZE, len(E_history)):
+                differences.append(E_history[i] - E_history[i - 1])
+            if all([fabs(e) < SHAKE_EPS for e in differences]):
+                print 'Shaking weights'
+                E_history = []
+                net.learning_rate = 0.002
+                net.shake_weights()
+
+        if epoch >= 70:
             break
 
     result = {
@@ -91,7 +122,6 @@ def process_data_set(net_name):
         "test_set_acc" : calc_accuarcy(net, test_set, m),
     }
     json.dump(result, open(os.path.join(path, "learn_log.json"), 'w'))
-    pickle.dump(net, open(os.path.join(path, "net.pickled"), 'w'))
     if desc["data_visualizer"]:
         pdf_path = os.path.join(path, desc["data_visualizer"]["processed_data_file"])
         generate_processed_data_file(pdf_path, net, test_set, m)
@@ -109,5 +139,5 @@ def tmp_just_get_pdf(net_name):
     generate_processed_data_file(pdf_path, net, test_set, m)
 
 if __name__ == '__main__':
-    #process_data_set("circles_03")
-    tmp_just_get_pdf("circles_03")
+    process_data_set("rings_01")
+    #tmp_just_get_pdf("circles_03")

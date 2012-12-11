@@ -1,14 +1,15 @@
 function drawData(rawData) {
-    var dataLines = rawData.split('\n').slice(1);
+    var dataLines = rawData.split('\n').slice(1, -1);
     var data = dataLines.map(function (line) {
        var vals = line.split('\t');
        return {
            "x" : vals[0],
            "y" : vals[1],
-           "el_class" : vals[2],
-           "net_result" : vals[3]
+           "el_class" : Math.round(vals[2]),
+           "net_result" : Math.round(vals[3])
        }
     });
+    window.data11 = data;
 
     var container = d3.select("#dataChartContainer");
     container.html("");
@@ -18,10 +19,10 @@ function drawData(rawData) {
         height = 700 - margin.top - margin.bottom;
 
     var x = d3.scale.linear()
-        .range([0, width]);
+        .range([0, width]).nice();
 
     var y = d3.scale.linear()
-        .range([height, 0]);
+        .range([height, 0]).nice();
 
     var color = d3.scale.category10();
 
@@ -71,12 +72,27 @@ function drawData(rawData) {
 
     svg.selectAll(".dot")
         .data(data)
-        .enter().append("circle")
+        .enter().append("path")
+        .attr("d", d3.svg.symbol().type(function(d) {
+            if (d.el_class == 0) {
+                return "triangle-up";
+            }
+            else {
+                return "square";
+            }
+        }))
         .attr("class", "dot")
-        .attr("r", 3.5)
-        .attr("cx", function(d) { return x(d.x); })
-        .attr("cy", function(d) { return y(d.y); })
-        .style("fill", function(d) { return color(d.el_class); });
+//        .attr("r", 3.5)
+        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
+        //.attr("cx", function(d) { return x(d.x); })
+        //.attr("cy", function(d) { return y(d.y); })
+        .style("fill", function(d) {
+            if (d.el_class == d.net_result) {
+                return color(d.el_class);
+            } else {
+                return "FireBrick";
+            }
+        });
 
     var legend = svg.selectAll(".legend")
         .data(color.domain())

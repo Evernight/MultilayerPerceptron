@@ -14,6 +14,11 @@ class MultilayerNetwork:
     def _init_weights(self, n, m):
         return npr.rand(n, m).transpose() * 2 * self.MAX_INITIAL_WEIGHT  - self.MAX_INITIAL_WEIGHT
 
+    def shake_weights(self):
+        for W in self.weights:
+            max_value = np.average(W)
+            W += (max_value * npr.random(W.shape) - max_value/2) * 0.33
+
     def __init__(self, network_size):
         """
         Matrices W are of size next_layer_cnt x cur_layer_cnt
@@ -26,7 +31,7 @@ class MultilayerNetwork:
 
         self.network_size = network_size
 
-        self.learning_rate = 0.1
+        self.learning_rate = 0.5
 
     def process_learning(self, sample, result):
         """

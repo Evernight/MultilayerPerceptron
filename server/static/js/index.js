@@ -10,8 +10,6 @@ function makeTabs() {
 
         $('ul.tabNavigation li.tabSelector').removeClass('active');
         $(this).parent().addClass('active');
-
-        return false;
     }).filter(':first').click();
 }
 
