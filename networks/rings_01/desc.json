@@ -1,0 +1,13 @@
+{
+    "name": "Rings 01",
+    "description":  "Network with one hidden layer of 40 neurons, adaptive learning rate and weight-shaking",
+    "data_file": "../../data/rings.tsv",
+    "layers": [2, 40, 1],
+    "training_set_size": 400,
+    "test_set_size" : 600,
+
+    "data_visualizer" : {
+        "js_file" : "../../data/visualizer/2d_points.js",
+        "processed_data_file" : "results.tsv"
+    }
+}
