@@ -3,6 +3,7 @@ from math import fabs
 import numpy as np
 import os
 import pickle
+import sys
 from Networks import MultilayerNetwork
 
 # TODO:
@@ -82,9 +83,9 @@ def process_data_set(net_name):
 
         E_history.append(tr_se)
 
-        INC_HISTORY_SIZE = 6
+        INC_HISTORY_SIZE = 8
         DEC_HISTORY_SIZE = 4
-        SHAKE_HISTORY_SIZE = 4
+        SHAKE_HISTORY_SIZE = 6
         SHAKE_EPS = 1e-5
 
         if len(E_history) >= INC_HISTORY_SIZE:
@@ -113,7 +114,7 @@ def process_data_set(net_name):
                 net.learning_rate = 0.002
                 net.shake_weights()
 
-        if epoch >= 70:
+        if epoch >= 300:
             break
 
     result = {
@@ -139,5 +140,5 @@ def tmp_just_get_pdf(net_name):
     generate_processed_data_file(pdf_path, net, test_set, m)
 
 if __name__ == '__main__':
-    process_data_set("rings_01")
+    process_data_set(sys.argv[1])
     #tmp_just_get_pdf("circles_03")
