@@ -13,5 +13,6 @@ python server.py
 ```
 
 It will open it at port 8080, then you can use your browser. It should be clear from now on. Btw it looks like this:
+
 ![learning curve](https://github.com/Evernight/MultilayerPerceptron/blob/master/screenshots/curve.png)
 ![data visualizer](https://github.com/Evernight/MultilayerPerceptron/blob/master/screenshots/data.png)
